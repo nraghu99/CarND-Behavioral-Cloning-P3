@@ -1,8 +1,7 @@
 #**Behavioral Cloning** 
 
-##Writeup Template
+##Submission By Narayanan Raghuvaran
 
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
 
 ---
 
@@ -38,6 +37,7 @@ My project includes the following files:
 * model.py containing the script to create and train the model
 * drive.py for driving the car in autonomous mode
 * model.h5 containing a trained convolution neural network 
+* video.mp4 A video recording of the car navigating track1 using drive.py
 * writeup_report.md or writeup_report.pdf summarizing the results
 
 ####2. Submission includes functional code
@@ -51,6 +51,24 @@ python drive.py model.h5
 The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
 ###Model Architecture and Training Strategy
+
+I started with the nVidia Architecture, I then read their paper. I added drop outs , used standard Lambda 
+normalizations etc 
+Training strategy, reflection and continuous improvement
+I started with the basic nVidia architecture and used Udacity's supplied training data and ran the training simulation
+This ended horribly as the car would wander off the road into the woods and ditch.
+
+Something was wrong, I then remembered Udacity's image preprocessing notes in the videos. So I added image preprocessing
+by cropping the image, randomly adjusting brighness
+
+I then ran the training again and ran the autonomous mode, the car could not navigate the first turn,
+hmm the car prefers to drive straight.  The car has not learnt to turn
+
+I looked at the driving_logs csv file and predominantly the center camera images had 0 steering angle
+I also remembered the udacity video about left and right camera images that can be included 
+with a correction factor
+
+Also based on nViia paper I converted the image to YUV format. Repeated the train/autonomous mode and much better
 
 ####1. An appropriate model architecture has been employed
 
