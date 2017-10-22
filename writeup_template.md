@@ -52,7 +52,16 @@ The model.py file contains the code for training and saving the convolution neur
 
 ###Model Architecture and Training Strategy
 
-I started with the nVidia Architecture, I then read their paper. I added drop outs , used standard Lambda 
+I started with the nVidia Architecture, I then read their paper.
+
+TRaining strategy consisted of increasing the sample size fromwhat udacity provided me, which around 6k samples
+I almost tripled it without additional driving by using the images from the left and right car cameras, this
+proved invaluable as the center camera mostly provided 0 steering angle whereas the left and right cameras
+came with correction steering angles which was non zero
+
+I also did image pre processing as part of my training strategy
+
+I added drop outs , used standard Lambda 
 normalizations etc 
 Training strategy, reflection and continuous improvement
 I started with the basic nVidia architecture and used Udacity's supplied training data and ran the training simulation
@@ -68,27 +77,39 @@ I looked at the driving_logs csv file and predominantly the center camera images
 I also remembered the udacity video about left and right camera images that can be included 
 with a correction factor
 
-Also based on nViia paper I converted the image to YUV format. Repeated the train/autonomous mode and much better
+Also based on nVidia paper I converted the image to YUV format. Repeated the train/autonomous mode and much better
 
 ####1. An appropriate model architecture has been employed
 
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+My model consists of (from nVidia Paper)
+1. Image normalization (model.py line 131)
+2. Followed by 3 convolution layers with 3 X 3 filter model.py lines 132, 134, 136. All of them uses
+ELU activation function which performs better
+3. This was followed by 3 convolution layers with 5 X 5 filet model.py lines 138, 140. Both of them use ELU activation
+function
+4,. After flattening the data , it is fed to
+5. 3 fully connected layers using ELU activation function, model.py lines 143 to 147
 
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18). 
+This multi layer network has sufficient dropouts and L2 regulariations to prevent over fitting
+a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+
+The model includes ELU layers to introduce nonlinearity (code line 132,134,136,138), and the data is normalized in the model using a Keras lambda layer (code line 131). 
 
 ####2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
+The model contains dropout layers in order to reduce overfitting (model.py lines 133,135,137,139,142). 
+The model has L2 regularizations to reduce overfitting lines 
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+ The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
 ####3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 165).
 
 ####4. Appropriate training data
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ... 
+Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road. Recovering from the left and right sides of the road was achieved by
+adding the left and right camera images to the sample data
 
 For details about how I created the training data, see the next section. 
 
@@ -98,21 +119,25 @@ For details about how I created the training data, see the next section.
 
 The overall strategy for deriving a model architecture was to ...
 
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
+My first step was to use a convolution neural network model similar to the one proposed by nVidia in their research 
+paper
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
+In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I ran training on data from all three camera angles and also flipped the image using a random probability between 0 and 1 (o.5 boundary) to add images fro driving in the other direction
 
-To combat the overfitting, I modified the model so that ...
+To combat the overfitting, I modified the model with Dropouts and L2 regularizations
 
-Then I ... 
+ 
 
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
+The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell went into the water or could not negtiate a sharp turn, so I had train the model with
+more epochs so that mse < 0.3
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
 ####2. Final Model Architecture
 
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
+The final model architecture (model.py lines 128-150) consisted of a convolution neural network with the following layers and layer sizes
+
+1. Conv2D, 5 x 5 filet , ELU activation, L2 regularizer
 
 Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
 
