@@ -136,12 +136,24 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 ####2. Final Model Architecture
 
 The final model architecture (model.py lines 128-150) consisted of a convolution neural network with the following layers and layer sizes
-
-1. Conv2D, 5 x 5 filet , ELU activation, L2 regularizer
-
+1. Lamda data normalization with 0 mean and range -0.5 to + 0.5
+2. Conv2D 5 x 5 filter , ELU activation, L2 regularizer
+3. Dropout
+4. Conv2D 5 x 5 filter , ELU activation, L2 regularizer
+5. Dropout
+6. Conv2D 5 x 5 filter , ELU activation, L2 regularizer
+7. Dropout
+8. Conv2D 3 X 3 filter , ELU activation, L2 regularizer
+9. Dropout
+10.Conv2D 3 X 3 filter , ELU activation, L2 regularizer
+11.Dropout, Flatten
+12.Fully connected , ELU activation, L2 regularizer
+13. Fully connected , ELU activation, L2 regularizer
+14. Fully connected , ELU activation, L2 regularizer
+15 Fully connected linear activation
 Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
 
-![alt text][image1]
+
 
 ####3. Creation of the Training Set & Training Process
 
