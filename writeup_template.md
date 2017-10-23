@@ -54,7 +54,7 @@ The model.py file contains the code for training and saving the convolution neur
 
 I started with the nVidia Architecture, I then read their paper.
 
-TRaining strategy consisted of increasing the sample size fromwhat udacity provided me, which around 6k samples
+Training strategy consisted of increasing the sample size fromwhat udacity provided me, which around 6k samples
 I almost tripled it without additional driving by using the images from the left and right car cameras, this
 proved invaluable as the center camera mostly provided 0 steering angle whereas the left and right cameras
 came with correction steering angles which was non zero
@@ -63,21 +63,7 @@ I also did image pre processing as part of my training strategy
 
 I added drop outs , used standard Lambda 
 normalizations etc 
-Training strategy, reflection and continuous improvement
-I started with the basic nVidia architecture and used Udacity's supplied training data and ran the training simulation
-This ended horribly as the car would wander off the road into the woods and ditch.
 
-Something was wrong, I then remembered Udacity's image preprocessing notes in the videos. So I added image preprocessing
-by cropping the image, randomly adjusting brighness
-
-I then ran the training again and ran the autonomous mode, the car could not navigate the first turn,
-hmm the car prefers to drive straight.  The car has not learnt to turn
-
-I looked at the driving_logs csv file and predominantly the center camera images had 0 steering angle
-I also remembered the udacity video about left and right camera images that can be included 
-with a correction factor
-
-Also based on nVidia paper I converted the image to YUV format. Repeated the train/autonomous mode and much better
 
 ####1. An appropriate model architecture has been employed
 
@@ -157,7 +143,47 @@ Here is a visualization of the architecture (note: visualizing the architecture 
 
 ####3. Creation of the Training Set & Training Process
 
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
+I used the data set provided by Udacity.
+
+
+T
+I started with the basic nVidia architecture and used Udacity's supplied training data and ran the training simulation
+This ended horribly as the car would wander off the road into the woods and ditch.
+
+Something was wrong, I then remembered Udacity's image preprocessing notes in the videos. So I added image preprocessing
+by cropping the image, and randomly adjusting brighness
+
+I then ran the training again and ran the autonomous mode, this time the carc could not 
+navigate the sharp turns , the car could not navigate the first turn,
+hmm the car prefers to drive straight.  The car has not learnt to turn
+
+I looked at the driving_logs csv file and predominantly the center camera images had 0 steering angle
+I also remembered the udacity video about left and right camera images that can be included 
+with a correction factor
+I augmented the data by including the images from the left and right cameras and adjusting the steering angle for each with
+a correction factor
+
+Also based on nVidia paper I converted the image to YUV format. Repeated the train/autonomous mode and much betterSimilarly cv2 output BGR format, converted to YUV, before sending to the model
+
+Then I trained the model again , but still the car would wander off into the woods
+
+So I reflected on what was going, the model architecture is pretty simple, so something is wrong 'elsewhere. For the first time I looked at drive.py, it then struck me that I have to do the same image pre processing in drive.py, before we 
+predict the steering angle
+
+So I cropped the image, resized it to the model's preferred shape i.e. 200, 66 and converted the color schema to YUV
+Now I think I had a pretty good design. I trained the model using udacity's dataset. The validation error started at 0.52 and kept dropping , at about epoch 15,it was 0.30.I felt mch better
+
+I then ran drive.py with the new model. And the car could complete the laps in track1 effortlessly. 
+
+I am now working on track2. Here I have adjusted drive.py throttle to be dependent on steering angle and speed
+(Steep turns and hilly track)
+
+throttle = 0.65 - (steering_angle)**2/ 2   -  (current_speed/25)**2
+
+Also steering_angle being fed to the controller is 1.2 * steering_angle to accentuate sharper turns.
+This has taken me half way point for track2
+
+
 
 ![alt text][image2]
 
