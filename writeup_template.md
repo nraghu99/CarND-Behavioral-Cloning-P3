@@ -54,15 +54,14 @@ The model.py file contains the code for training and saving the convolution neur
 
 I started with the nVidia Architecture, I then read their paper.
 
-Training strategy consisted of increasing the sample size fromwhat udacity provided me, which around 6k samples
+Training strategy consisted of increasing the sample size from what udacity provided me, which was around 6k samples
 I almost tripled it without additional driving by using the images from the left and right car cameras, this
 proved invaluable as the center camera mostly provided 0 steering angle whereas the left and right cameras
 came with correction steering angles which was non zero
 
 I also did image pre processing as part of my training strategy
 
-I added drop outs , used standard Lambda 
-normalizations etc 
+I added drop outs , used standard Lambda normalizations etc 
 
 
 ####1. An appropriate model architecture has been employed
@@ -146,14 +145,13 @@ Here is a visualization of the architecture (note: visualizing the architecture 
 I used the data set provided by Udacity.
 
 
-T
 I started with the basic nVidia architecture and used Udacity's supplied training data and ran the training simulation
 This ended horribly as the car would wander off the road into the woods and ditch.
 
 Something was wrong, I then remembered Udacity's image preprocessing notes in the videos. So I added image preprocessing
 by cropping the image, and randomly adjusting brighness
 
-I then ran the training again and ran the autonomous mode, this time the carc could not 
+I then ran the training again and ran the autonomous mode, this time the car could not 
 navigate the sharp turns , the car could not navigate the first turn,
 hmm the car prefers to drive straight.  The car has not learnt to turn
 
@@ -167,13 +165,13 @@ Also based on nVidia paper I converted the image to YUV format. Repeated the tra
 
 Then I trained the model again , but still the car would wander off into the woods
 
-So I reflected on what was going, the model architecture is pretty simple, so something is wrong 'elsewhere. For the first time I looked at drive.py, it then struck me that I have to do the same image pre processing in drive.py, before we 
+So I reflected on what was going, the model architecture is pretty simple, so something is wrong elsewhere. For the first time I looked at drive.py, it then struck me that I have to do the same image pre processing in drive.py, before we 
 predict the steering angle
 
 So I cropped the image, resized it to the model's preferred shape i.e. 200, 66 and converted the color schema to YUV
-Now I think I had a pretty good design. I trained the model using udacity's dataset. The validation error started at 0.52 and kept dropping , at about epoch 15,it was 0.30.I felt mch better
+Now I think I had a pretty good design. I trained the model using udacity's dataset. The validation error started at 0.52 and kept dropping , at about epoch 15,it was 0.30.I felt much better
 
-I then ran drive.py with the new model. And the car could complete the laps in track1 effortlessly. 
+I then ran drive.py with the new model. And the car could complete the laps on track 1 effortlessly. 
 
 I am now working on track2. Here I have adjusted drive.py throttle to be dependent on steering angle and speed
 (Steep turns and hilly track)
@@ -181,30 +179,11 @@ I am now working on track2. Here I have adjusted drive.py throttle to be depende
 throttle = 0.65 - (steering_angle)**2/ 2   -  (current_speed/25)**2
 
 Also steering_angle being fed to the controller is 1.2 * steering_angle to accentuate sharper turns.
-This has taken me half way point for track2
+This has taken me to the half way point for track2
 
+The model works on track1 
 
+Before feeding the data to the model, I had shuffled the training set before each epoch
 
-![alt text][image2]
-
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
-
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
-
-Then I repeated this process on track two in order to get more data points.
-
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
-![alt text][image6]
-![alt text][image7]
-
-Etc ....
-
-After the collection process, I had X number of data points. I then preprocessed this data by ...
-
-
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
-
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 15 as after that the validation error drop per epoch was very
+negligible. I used an adam optimizer so that manually training the learning rate wasn't necessary.
