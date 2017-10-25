@@ -173,6 +173,10 @@ Now I think I had a pretty good design. I trained the model using udacity's data
 
 I then ran drive.py with the new model. And the car could complete the laps on track 1 effortlessly. 
 
+Before feeding the data to the model, I had shuffled the training set before each epoch.
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 15 as after that the validation error drop per epoch was very
+negligible. I used an adam optimizer so that manually training the learning rate wasn't necessary.
+
 I am now working on track2. Here I have adjusted drive.py throttle to be dependent on steering angle and speed
 (Steep turns and hilly track)
 
@@ -181,9 +185,9 @@ throttle = 0.65 - (steering_angle)**2/ 2   -  (current_speed/25)**2
 Also steering_angle being fed to the controller is 1.2 * steering_angle to accentuate sharper turns.
 This has taken me to the half way point for track2
 
-The model works on track1 
+The changed drive.py to fit track2   works on track1 , but this WIP and has not been checked in as I am trainging the model
+for specific issues and challenges I see on track2
 
-Before feeding the data to the model, I had shuffled the training set before each epoch
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 15 as after that the validation error drop per epoch was very
-negligible. I used an adam optimizer so that manually training the learning rate wasn't necessary.
+
+
