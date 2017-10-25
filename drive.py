@@ -11,6 +11,7 @@ import eventlet.wsgi
 from PIL import Image
 from flask import Flask
 from io import BytesIO
+import cv2
 
 from keras.models import load_model
 import h5py
@@ -44,28 +45,52 @@ class SimplePIController:
 
 
 controller = SimplePIController(0.1, 0.002)
-set_speed = 9
+set_speed = 5
 controller.set_desired(set_speed)
+
+## Set a maximum speed
+MAX_SPEED = 25
+
+
+
 
 
 @sio.on('telemetry')
 def telemetry(sid, data):
     if data:
         # The current steering angle of the car
-        steering_angle = data["steering_angle"]
+        steering_angle = float(data["steering_angle"])
         # The current throttle of the car
-        throttle = data["throttle"]
+        throttle = float(data["throttle"])
         # The current speed of the car
-        speed = data["speed"]
+        speed = float(data["speed"])
         # The current image from the center camera of the car
         imgString = data["image"]
         image = Image.open(BytesIO(base64.b64decode(imgString)))
         image_array = np.asarray(image)
-        steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
 
-        throttle = controller.update(float(speed))
+        ## Here we do the same image pre processing as in model.py
 
-        print(steering_angle, throttle)
+        # Take a crop of the image , ignore the 70 pixels of sky and trees above horizon
+        # Ignore the 25 pixels of the dashboard extension
+        image_array = image_array[70:-25,:]
+
+        # Resize the image what the nVidia CNN architecture performs best at
+        # Per their paper it expects a image of size 200,66,3 
+        image_array = cv2.resize(image_array, (200, 66), interpolation=cv2.INTER_AREA)
+
+        # Per the nVidia paper the Neural net model ecpects image in YUV format
+        image_array = cv2.cvtColor(image_array,cv2.COLOR_RGB2YUV)
+
+        # Get the predicted steering angle
+        steering_angle =  float(model.predict(image_array[None, :, :, :], batch_size=1))
+
+ 
+        # Adjust the throttle based on steering angle and current speed to MAX Speed
+        throttle = 0.65 - ((steering_angle ** 2)/2.0)  - (speed/MAX_SPEED)**2
+ 
+
+ ##       print(steering_angle, throttle)
         send_control(steering_angle, throttle)
 
         # save frame
