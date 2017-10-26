@@ -11,6 +11,7 @@ from keras.models import Sequential, Model
 from keras.layers import Flatten, Dense, Lambda, Dropout, Activation, ELU
 from keras.layers.convolutional import Convolution2D, Cropping2D
 from keras.layers.pooling import MaxPooling2D
+import matplotlib.pyplot as plt
 
 ## Resize the image to what nVidia Neural net archtecture expects i.e. 200,66,3
 def resize(image):
@@ -52,6 +53,74 @@ def process_image(image):
     image = crop_image(image)
     image = resize(image)
     return image
+
+
+
+def displayImage(title, frame,image, angle):
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    cv2.putText(image, 'frame: ' + str(frame), org=(2,15), fontFace=font, fontScale=.5, color=(0,0,255), thickness=1)
+    cv2.putText(image, 'angle: ' + str(angle), org=(2,33), fontFace=font, fontScale=.5, color=(0,0,255), thickness=1)
+    cv2.imshow(title, image)
+    cv2.imwrite(title + str(frame) + '.png', image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def generate_training_data_for_visualization(filepath, headerline):
+    """
+     Reads a csv file and displays and saves 2 sets of images, one for each frame
+     the images are cropped, re sized, flipped etc to showcase the image augmentation techniques I used
+     """
+    allimages = []
+    allangles = []
+    
+    correction = 0.275
+    with open(filepath + '/driving_log.csv') as csvfile:       
+        reader =  csv.reader(csvfile)
+        if headerline:
+            next(reader,None)
+        for line in reader:
+            imagepaths, anglemeasures = [], []
+            angle = float(line[3])
+            center_img = filepath + '/IMG/' + line[0].split('/')[-1]
+            left_img = filepath + '/IMG/' + line[1].split('/')[-1]
+            right_img = filepath + '/IMG/' + line[2].split('/')[-1]
+
+            ## We enhance the sample size by adding images from left and right camera
+            ## as mostly we are driving straight, adding right and left camera, will
+            ## make training data more uniformly distributed as these images are turn data
+            ## with the correction factor of 0.275 as the steering angle
+            imagepaths.append(center_img)
+            imagepaths.append(left_img)
+            imagepaths.append(right_img)
+            anglemeasures.append(angle)
+            anglemeasures.append(angle + correction)
+            anglemeasures.append(angle - correction)
+            allimages.append(imagepaths)
+            allangles.append(anglemeasures)
+
+        num_samples = len(allimages)
+        for i in range(2):
+            sample_index =  np.random.randint(0,num_samples)
+            centerImage = cv2.imread(allimages[sample_index][0])
+            leftImage = cv2.imread(allimages[sample_index][1])
+            rightImage = cv2.imread(allimages[sample_index][2])
+            displayImage('Center_Img', sample_index,centerImage, allangles[sample_index][0])
+            displayImage('Left_Img', sample_index,leftImage, allangles[sample_index][1]) 
+            displayImage('Right_Img', sample_index,rightImage, allangles[sample_index][2])
+            centerImage = cv2.imread(allimages[sample_index][0])
+            centerImage = random_brightness(centerImage)
+            displayImage('Center_Img_Random_Brightness', sample_index,centerImage, allangles[sample_index][0])
+            leftImage = cv2.imread(allimages[sample_index][1])
+            leftImage = crop_image(leftImage)
+            displayImage('Left_Img_Cropped', sample_index,leftImage, allangles[sample_index][1]) 
+            rightImage = cv2.imread(allimages[sample_index][2])
+            rightImage = resize(rightImage)
+            displayImage('Right_Img_Resized', sample_index,rightImage, allangles[sample_index][2])
+            centerImage = cv2.imread(allimages[sample_index][0])
+            flippedCenter = cv2.flip(centerImage,1)
+            displayImage('Flipped_Center_Img', sample_index,flippedCenter, allangles[sample_index][0] * -1.0)
+ 
+
 
 # Get the input data, I using udacity data only
 def getCsvData(filepath, headerline):
@@ -158,7 +227,12 @@ if __name__=="__main__":
 
     filepath_g  =  udacity_filepath
     headerline = 'true'
-    X_train, y_train = getCsvData(filepath_g, 'true')                                             
+
+
+    generate_training_data_for_visualization(filepath_g, 'true')
+    
+    X_train, y_train = getCsvData(filepath_g, 'true')
+    
     X_train, y_train = shuffle(X_train, y_train, random_state=14)
     X_train,X_validation,y_train,y_validation = train_test_split(X_train, y_train, test_size = 0.2,random_state=14)              
     model = nvidiaNet((66,200,3), dropout= 0.25)
