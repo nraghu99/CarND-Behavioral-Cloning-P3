@@ -177,6 +177,14 @@ Before feeding the data to the model, I had shuffled the training set before eac
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 15 as after that the validation error drop per epoch was very
 negligible. I used an adam optimizer so that manually training the learning rate wasn't necessary.
 
+
+
+<figure>
+<img src="./sample_data_set/Center_Img877.png?raw=true" width="400px">
+ <figcaption>Original Center Image Frame 877</figcaption>
+</figure>
+
+
 [image15]: (sample_data_set/Center_Img877.png) "Original Center Image Frame 877"
 
 I am now working on track2. Here I have adjusted drive.py throttle to be dependent on steering angle and speed
