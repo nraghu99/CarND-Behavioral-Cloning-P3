@@ -17,7 +17,7 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./sample_data_set/Center_Img877.png "Original Center Image Frame 877"
+[image1]: (./sample_data_set/Center_Img877.png) "Original Center Image Frame 877"
 [image2]: ./examples/placeholder.png "Grayscaling"
 [image3]: ./examples/placeholder_small.png "Recovery Image"
 [image4]: ./examples/placeholder_small.png "Recovery Image"
