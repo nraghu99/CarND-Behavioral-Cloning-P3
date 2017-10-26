@@ -181,8 +181,7 @@ negligible. I used an adam optimizer so that manually training the learning rate
 
 <figure>
 <figcaption>Original Center Image Frame 877</figcaption>
-<img src="./sample_data_set/Center_Img877.png?raw=true" width="400px">
- 
+<img src="./sample_data_set/Center_Img877.png?raw=true" width="400px"> 
 </figure>
 
 
@@ -217,10 +216,55 @@ negligible. I used an adam optimizer so that manually training the learning rate
 </figure>
 
 <figure>
-<figcaption>Right Image Resized 877</figcaption>
-  <img src="./sample_data_set/Right_Img_Resized877.png?raw=true" width="400px">
+  <figcaption>Right Image Resized 877</figcaption>
+  <img src="./sample_data_set/Right_Img_Resized877.png?raw=true" width="400px"> 
+</figure>
+
+
+
+
+<figure>
+<figcaption>Original Center Image Frame 1665</figcaption>
+<img src="./sample_data_set/Center_Img1665.png?raw=true" width="400px"> 
+</figure>
+
+
+<figure>
+<figcaption>Center Image Frame 1665 Random Brightness</figcaption>
+<img src="./sample_data_set/Center_Img_Random_Brightness1665.png?raw=true" width="400px">
  
 </figure>
+
+<figure>
+ <figcaption>Flipped Center Image Frame 1665</figcaption>
+<img src="./sample_data_set/Flipped_Center_Img1665.png?raw=true" width="400px">
+
+</figure>
+
+<figure>
+<figcaption>Left Image Frame 1665</figcaption>
+  <img src="./sample_data_set/Left_Img1665.png?raw=true" width="400px">
+ 
+</figure>
+
+<figure>
+ <figcaption>Left Cropped Image Frame 1665</figcaption>
+  <img src="./sample_data_set/Left_Img_Cropped1665.png?raw=true" width="400px">
+
+</figure>
+
+<figure>
+<figcaption>Right Image Frame 1665</figcaption>
+  <img src="./sample_data_set/Right_Img1665.png?raw=true" width="400px">
+ 
+</figure>
+
+<figure>
+  <figcaption>Right Image Resized 1665</figcaption>
+  <img src="./sample_data_set/Right_Img_Resized1665.png?raw=true" width="400px"> 
+</figure>
+
+
 
 
 
