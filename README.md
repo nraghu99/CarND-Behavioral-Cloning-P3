@@ -122,3 +122,4 @@ A well written README file can enhance your project and portfolio.  Develop your
 
 [image1]: (sample_data_set/Center_Img877.png) "Original Center Image Frame 877"
 
+<img src="./sample_data_set/Center_Img877.png?raw=true" width="400px">
