@@ -180,39 +180,46 @@ negligible. I used an adam optimizer so that manually training the learning rate
 
 
 <figure>
+<figcaption>Original Center Image Frame 877</figcaption>
 <img src="./sample_data_set/Center_Img877.png?raw=true" width="400px">
- <figcaption>Original Center Image Frame 877</figcaption>
+ 
 </figure>
 
 
 <figure>
+<figcaption>Center Image Frame 877 Random Brightness</figcaption>
 <img src="./sample_data_set/Center_Img_Random_Brightness877.png?raw=true" width="400px">
- <figcaption>Center Image Frame 877 Random Brightness</figcaption>
+ 
 </figure>
 
 <figure>
-<img src="./sample_data_set/Flipped_Center_Img877.png?raw=true" width="400px">
  <figcaption>Flipped Center Image Frame 877</figcaption>
+<img src="./sample_data_set/Flipped_Center_Img877.png?raw=true" width="400px">
+
 </figure>
 
 <figure>
+<figcaption>Left Image Frame 877</figcaption>
   <img src="./sample_data_set/Left_Img877.png?raw=true" width="400px">
- <figcaption>Left Image Frame 877</figcaption>
+ 
 </figure>
 
 <figure>
-  <img src="./sample_data_set/Left_Img_Cropped877.png?raw=true" width="400px">
  <figcaption>Left Cropped Image Frame 877</figcaption>
+  <img src="./sample_data_set/Left_Img_Cropped877.png?raw=true" width="400px">
+
 </figure>
 
 <figure>
+<figcaption>Right Image Frame 877</figcaption>
   <img src="./sample_data_set/Right_Img877.png?raw=true" width="400px">
- <figcaption>Right Image Frame 877</figcaption>
+ 
 </figure>
 
 <figure>
+<figcaption>Right Image Resized 877</figcaption>
   <img src="./sample_data_set/Right_Img_Resized877.png?raw=true" width="400px">
- <figcaption>Right Image Resized 877</figcaption>
+ 
 </figure>
 
 
